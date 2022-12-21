@@ -57,8 +57,17 @@ def pose_estimation(
     """
 
     # These are random values, replace with your own
-    x_curr = np.random.random()
-    y_curr = np.random.random()
-    theta_curr = np.random.random()
+    distance_left = R * (delta_phi_left)
+    distance_right = R* (delta_phi_right)
+
+    distance_robot = (distance_left + distance_right) / 2
+    rotation_robot = (distance_right - distance_left) /baseline
+    
+    delta_x = distance_robot*np.cos(rotation_robot)
+    delta_y = distance_robot*np.sin(rotation_robot)
+
+    x_curr = x_prev + delta_x
+    y_curr = y_prev + delta_y
+    theta_curr = theta_prev + rotation_robot
     # ---
     return x_curr, y_curr, theta_curr
