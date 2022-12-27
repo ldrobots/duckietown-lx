@@ -27,9 +27,23 @@ def PIDController(
   
 
     # These are random values, replace with your implementation of a PID controller in here
-    omega = np.random.uniform(-8.0, 8.0)
-    e = np.random.random()
-    e_int = np.random.random()
+    e = y_ref - y_hat
+    e_int = prev_e_y + e*delta_t
+    e_dif = (e-prev_e_y)/delta_t
+
+    e = y_ref - y_hat
+    e_int = prev_e_y + e*delta_t
+    e_dif = (e-prev_e_y)/delta_t
+
+        #91     #87         #85     #84
+    k = 1       # 1.4       #8      #5
+    ki = 0      # 0.5       #0.4    #1
+    kd = 2   # 0.6       #3      #0.5
+
+    omega = k*e + (ki * e_int) + kd * e_dif
+    print("Omega: ", omega)
+    print(e)
+    omega = max(min(omega, 1), -1)    
     # ---
     
     return v_0, omega, e, e_int
